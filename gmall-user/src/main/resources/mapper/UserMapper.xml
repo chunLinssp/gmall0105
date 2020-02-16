@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.gmall.user.mapper.UserMapper">
+
+    <sql id="MemberColumn">
+        member_level_id,
+        username,
+        password,
+        nickname,
+        phone,
+        status,
+        create_time,
+        icon,
+        gender,
+        birthday,
+        city,
+        job,
+        personalized_signature,
+        source_type,
+        integration,
+        growth,
+        luckey_count,
+        history_integration
+    </sql>
+
+    <select id="selectAllMember" resultType="UmsMember">
+        select * from ums_member
+    </select>
+
+    <insert id="saveMember" parameterType="UmsMember">
+        insert into ums_member(<include refid="MemberColumn"></include> )values(
+           #{memberLevelId},#{username},#{password},#{nickname},#{phone},#{status},now(),#{icon},
+           #{gender},#{birthday},#{city},#{job},#{personalizedSignature},#{sourceType},#{integration},#{growth},
+           #{luckeyCount},#{historyIntegration}
+        )
+    </insert>
+
+    <update id="updateMember" parameterType="UmsMember">
+        update ums_member
+        <trim prefix="set" suffixOverrides=",">
+            <if test="memberLevelId!=null"> member_level_id = #{memberLevelId},</if>
+            <if test="username!=null"> username = #{username},</if>
+            <if test="password!=null"> password = #{password},</if>
+            <if test="nickname!=null"> nickname = #{nickname},</if>
+            <if test="phone!=null"> phone = #{phone},</if>
+            <if test="status!=null"> status = #{status},</if>
+            <if test="createTime!=null"> create_time = #{createTime},</if>
+            <if test="icon!=null"> icon = #{icon},</if>
+            <if test="gender!=null"> gender = #{gender},</if>
+            <if test="birthday!=null"> birthday = #{birthday},</if>
+            <if test="city!=null"> city = #{city},</if>
+            <if test="job!=null"> job = #{job},</if>
+            <if test="personalizedSignature!=null"> personalized_signature = #{personalizedSignature},</if>
+            <if test="sourceType!=null"> source_type = #{sourceType},</if>
+            <if test="integration!=null"> integration = #{integration},</if>
+            <if test="growth!=null"> growth = #{growth},</if>
+            <if test="luckeyCount!=null"> luckey_count = #{luckeyCount},</if>
+            <if test="historyIntegration!=null"> history_integration = #{historyIntegration},</if>
+        </trim>
+        where
+        (id = #{id})
+    </update>
+
+    <delete id="deleteMemberById">
+        delete from ums_member where id = #{id}
+    </delete>
+
+</mapper>
